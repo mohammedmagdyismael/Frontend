@@ -1,18 +1,22 @@
 import React, {Component} from 'react'; 
 import styled from 'styled-components'
-
+import MoviePlaceholderImg from './img/movieFilmingSmall.jpg'
+import axios from 'axios'
 
 const PopularMovieCard = styled.div`
-    display: block;
-    margin: 2px;
+    display: inline-flex;
+    flex-direction : row;
+    flex-wrap : wrap;
+    margin: auto;
     box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     background-color:white;
     border: 1px solid #efefef;
-    border-radius: 4px  ;
+    border-radius: 4px;
+    width: fit-content;
 `;
 
 const PopularMovieNameLink = styled.a`
-    display: inline-flexbox;
+    display: block;
     font-family: "Lato", sans-serif;
     text-decoration: none;
     font-style: unset;
@@ -20,12 +24,17 @@ const PopularMovieNameLink = styled.a`
     font-weight: 600;
     color: black;
     border: 0.5px 0.5px 0.5px 0.5px;
-    width: fit-content;
     margin: 0px 0px 0px 8px;
     margin-right: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 7ch;
 `;
 
 const PopularMovieYear = styled.p`
+    display: block;
     color: #222121;
     margin-top: 0.5px;
     margin-left: 8px;
@@ -36,7 +45,12 @@ const PopularMovieYear = styled.p`
     font-family: sans-serif;
 `;
 
+const PlaceholderImg = styled.img`
+    display : block;
+    height: 40px;
+`;
 
+ 
 
 class PopularMovies extends React.Component{
     constructor(){
@@ -45,42 +59,41 @@ class PopularMovies extends React.Component{
             moviesnames : [],
         };
     }
-
     componentDidMount(){
-        fetch('https://api.trakt.tv/movies/popular',
-         {
-            method: 'GET',   
-            headers: {  
-                'trakt-api-key': 'b6ab67a5ef6dce15759eb426151e0fb84e81572ff1f55c2909f2ced677099bc5',
-                'trakt-api-version': '2', 
-                'Content-Type': 'application/json'
-            }
-        }).then(
-            results=> {
-                return results.json();
-            }
-            ).then(
-                data=>{ 
-                    let names = data.map((movie)=>{
-                        var imdbURL = "https://www.imdb.com/title/"+movie.ids.imdb;
-                        return (
-                    
-                            <PopularMovieCard>    
-                                                                   
-                                <PopularMovieNameLink href={imdbURL}>
-                                    {movie.title}
-                                </PopularMovieNameLink>
-                            
-                                <PopularMovieYear>
-                                    Year: {movie.year}
-                                </PopularMovieYear>
 
+
+        axios.get('https://api.trakt.tv/movies/popular',
+            {
+                headers: {  
+                    'trakt-api-key': 'b6ab67a5ef6dce15759eb426151e0fb84e81572ff1f55c2909f2ced677099bc5',
+                    'trakt-api-version': '2', 
+                    'Content-Type': 'application/json'
+                }
+            }
+
+        ).then(
+            result => {
+                let movies = result.data.map(
+                    (movie)=>{
+                        var imdbURL = "https://www.imdb.com/title/"+movie.ids.imdb;
+                        return(
+                            <PopularMovieCard> 
+                                    <PlaceholderImg src={MoviePlaceholderImg}/>                   
+                                    <PopularMovieNameLink href={imdbURL} target="_blank">
+                                        {movie.title}
+                                    </PopularMovieNameLink>
+                                    <PopularMovieYear>
+                                        Year: {movie.year}
+                                    </PopularMovieYear>
                             </PopularMovieCard>
                         )
-                    })
-                    this.setState({moviesnames:names}); 
-                }
+
+                    }
                 )
+                this.setState({moviesnames:movies}); 
+            }
+            
+        )
     }
 
     render(){

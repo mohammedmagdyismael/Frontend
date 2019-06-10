@@ -14,22 +14,21 @@ const MoviesContainer = styled.div`
     height: 100vh;
 `;
 
+
 const SearchResultsContainer = styled.div`
-    display: inline-block;
+    display: block;
     margin: 10px 10px 10px 0px;
     border-radius: 10px;
-    
     padding-left: 0.5%;
     padding-right: 0.5%;
     padding-top: 2px;
     padding-bottom: 5px;
     height: 100%;
-    width: 75%;
     overflow: auto;
 `;
 
 const PopularMoviesContainer = styled.div`
-    display: inline-block;
+    display: block;
     margin: 10px 10px 10px 0px;
     border-radius: 10px;
     
@@ -38,7 +37,7 @@ const PopularMoviesContainer = styled.div`
     padding-top: 2px;
     padding-bottom: 5px;
     height: 100%;
-    width: 23%;
+    width: auto;
     overflow: auto;
 `;
 
@@ -48,12 +47,16 @@ const ContainerTitle = styled.p`
 
 
 class App extends React.Component{
-
-    state = {
-        term : ''
-    };
+    constructor(){
+        super();
+        this.state = {
+            term : ''
+        };
+    }
+    
 
     onTermSubmit = (term)=>{
+        
         this.setState({
             term : term
         });
@@ -65,6 +68,17 @@ class App extends React.Component{
                 <HeaderBox/> 
                 <SearchBar onFormSubmit={this.onTermSubmit}/>
                 
+                <ContainerTitle>
+                        Popular Movies
+                </ContainerTitle>
+
+                <PopularMoviesContainer>
+
+                    <PopularMovies />
+
+                </PopularMoviesContainer>
+
+
                 <MoviesContainer>
 
                     <SearchResultsContainer>
@@ -75,16 +89,6 @@ class App extends React.Component{
                         <ResultedSearch term = {this.state.term}/>
 
                     </SearchResultsContainer>
-
-                    <PopularMoviesContainer>
-
-                        <ContainerTitle>
-                            Popular Movies
-                        </ContainerTitle>
-
-                        <PopularMovies />
-
-                    </PopularMoviesContainer>
 
                 </MoviesContainer>
             </div>

@@ -169,7 +169,7 @@ class HeaderBox extends React.Component{
                         <HeaderTitlePrimarySub>Automatically track what you're watching.</HeaderTitlePrimarySub>
                     </HeaderTitles>
 
-                    <Button onClick={() => this.scrollToNode(this.w)} href='#' > Follow me </Button>
+                    <Button onClick={() => this.scrollToNode(this.w)} href='https://trakt.tv/' target="_blank" > GoTO Trakt.tv </Button>
                         
                 </HeaderContent>
                 

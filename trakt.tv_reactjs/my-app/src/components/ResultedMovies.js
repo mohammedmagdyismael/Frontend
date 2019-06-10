@@ -1,39 +1,54 @@
 import React, {Component} from 'react';
 import styled from 'styled-components'
-
+import MoviePlaceholderImg from './img/movieFilmingSmall.jpg'
+import axios from 'axios'
 
 const ResultMovieCard = styled.div`
-    display: block;
-    margin: 2px;
+    display: inline-flex;
+    flex-direction : column;
+    flex-wrap : wrap;
+    margin: auto;
     box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     background-color:white;
     border: 1px solid #efefef;
-    border-radius: 4px  ;
+    border-radius: 4px;
 `;
 
 const ResultMovieNameLink = styled.a`
-    display: inline-flexbox;
+    display : block;
     font-family: "Lato", sans-serif;
     text-decoration: none;
     font-style: unset;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
     color: black;
     border: 0.5px 0.5px 0.5px 0.5px;
     width: fit-content;
     margin: 0px 0px 0px 8px;
     margin-right: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 12ch;
 `;
 
 const ResultMovieYear = styled.p`
-    color: #222121;
+display : block;
+    color: #9e9e9e;
     margin-top: 0.5px;
     margin-left: 8px;
     margin-bottom: 0.5px;
     margin-right: 0.5px;
     padding-right: 8px;
     width: fit-content;
-    font-family: sans-serif;
+    font-family: 'Lato', sans-serif ;
+    font-size : 13px;
+`;
+
+const PlaceholderImg = styled.img`
+    display : block;
+    height: 140px;
 `;
 
 
@@ -42,31 +57,36 @@ class ResultedMovies extends React.Component{
         super(props);
         this.state = {
             moviesnames : [],
+            mediatype : ['movie', 'show', 'episode', 'person', 'list']
         };
     }
 
-    componentWillUpdate(){ 
-        fetch('https://api.trakt.tv/search/movie?query='+ this.props.term ,
-         {
-            method: 'GET',   
-            headers: {  
-                'trakt-api-key': 'b6ab67a5ef6dce15759eb426151e0fb84e81572ff1f55c2909f2ced677099bc5',
-                'trakt-api-version': '2', 
-                'Content-Type': 'application/json'
+    componentDidUpdate(){ 
+ 
+        axios.get('https://api.trakt.tv/search/movie',
+            {
+                params: {
+                    query: this.props.term,
+                    page : 1,
+                    limit : 100
+                },
+                headers: {  
+                    'trakt-api-key': 'b6ab67a5ef6dce15759eb426151e0fb84e81572ff1f55c2909f2ced677099bc5',
+                    'trakt-api-version': '2', 
+                    'Content-Type': 'application/json'
+                }
             }
-        }).then(
-            results=> {
-                return results.json(); 
-            }
-            ).then(
-                data=>{ 
-                    let names = data.map((movie)=>{
+        ).then(    
+            result => {
+                let movies = result.data.map(
+                    (movie)=>{
                         var imdbURL = "https://www.imdb.com/title/"+movie.movie.ids.imdb;
-                    
-                    return (
-                            
-                            <ResultMovieCard>                                           
-                                    <ResultMovieNameLink href={imdbURL}>
+                        
+                        return (    
+                            <ResultMovieCard>   
+                                    <PlaceholderImg src={MoviePlaceholderImg}/>                   
+
+                                    <ResultMovieNameLink href={imdbURL} target="_blank">
                                         {movie.movie.title}
                                     </ResultMovieNameLink>
                                    
@@ -77,10 +97,9 @@ class ResultedMovies extends React.Component{
                             </ResultMovieCard>
                         )
                     })
-                    this.setState({moviesnames:names}); 
-                      
+                    this.setState({moviesnames:movies}); 
                     }
-                )
+            )
     }
 
     render(){ 
