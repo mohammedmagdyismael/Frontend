@@ -12,7 +12,7 @@ const PopularMovieCard = styled.div`
     background-color:white;
     border: 1px solid #efefef;
     border-radius: 4px;
-    width: fit-content;
+    width: 100%;
 `;
 
 const PopularMovieNameLink = styled.a`
@@ -30,7 +30,7 @@ const PopularMovieNameLink = styled.a`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 7ch;
+    max-width: 10ch;
 `;
 
 const PopularMovieYear = styled.p`
@@ -87,7 +87,6 @@ class PopularMovies extends React.Component{
                                     </PopularMovieYear>
                             </PopularMovieCard>
                         )
-
                     }
                 )
                 this.setState({moviesnames:movies}); 

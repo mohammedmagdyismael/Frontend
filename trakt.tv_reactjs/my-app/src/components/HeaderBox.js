@@ -3,6 +3,7 @@ import Traktlogoimage from './img/ILaaIYY0_400x400.png'
 import HeaderBanner from './img/headerbanner.jpg'
 import styled, {keyframes} from 'styled-components'
 
+
 const Header = styled.div`
     background-size: cover;
     height: 95vh;
@@ -117,6 +118,8 @@ const Button = styled.a`
 
         border-radius: 100px;
         box-shadow: 0 10px 40px rgba(255, 251, 251, 0.2);
+
+        animation:${ButtonMoveUp} 1s ease-out;;
         
     }
     :hover{
@@ -149,16 +152,18 @@ const Button = styled.a`
 
 `;
 
-
+const MongoURL = `mongodb+srv://mohammedmagdyismael:<mmi23j92@>@devconnector-03tjl.mongodb.net/test?retryWrites=true&w=majority`;
 
 class HeaderBox extends React.Component{
     scrollToNode = (node) =>{
 		node.scrollIntoView({ behavior: 'smooth' });
-	}
+    }
+    
+
+
     render(){
-        return(
-            
-            <Header> 
+        return(       
+            <Header>  
                 <HeaderLogoContainer> 
                     <HeaderLogo src={Traktlogoimage} alt= "traktlogo" />
                 </HeaderLogoContainer>
@@ -168,8 +173,8 @@ class HeaderBox extends React.Component{
                         <HeaderTitlePrimaryMain>TRAKT</HeaderTitlePrimaryMain>
                         <HeaderTitlePrimarySub>Automatically track what you're watching.</HeaderTitlePrimarySub>
                     </HeaderTitles>
-
-                    <Button onClick={() => this.scrollToNode(this.w)} href='https://trakt.tv/' target="_blank" > GoTO Trakt.tv </Button>
+                    
+                    <Button onClick={this.connectDB} href='https://trakt.tv/' target="_black" > GoTO Trakt.tv </Button>
                         
                 </HeaderContent>
                 

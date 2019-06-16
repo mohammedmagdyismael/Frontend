@@ -51,6 +51,18 @@ const PlaceholderImg = styled.img`
     height: 140px;
 `;
 
+const EmptyStateMsg = styled.p`
+    display : block;
+    font-size : 20px;
+    width: 100%;
+    text-align: center;
+    margin-top:20%;
+    margin-bottom:10%;
+`;
+const EmptyStateMsgContainer = styled.div`
+    width: 100%;
+    align : center;
+`;
 
 class ResultedMovies extends React.Component{
     constructor(props){
@@ -83,7 +95,8 @@ class ResultedMovies extends React.Component{
                         var imdbURL = "https://www.imdb.com/title/"+movie.movie.ids.imdb;
                         
                         return (    
-                            <ResultMovieCard>   
+                            <ResultMovieCard>
+                                   
                                     <PlaceholderImg src={MoviePlaceholderImg}/>                   
 
                                     <ResultMovieNameLink href={imdbURL} target="_blank">
@@ -103,11 +116,34 @@ class ResultedMovies extends React.Component{
     }
 
     render(){ 
-        return(
-            <div> 
-                 {this.state.moviesnames}
-            </div>
-        )
+        let letters = /^[A-Za-z]+$/;
+        
+        if(!this.props.term.search(letters)){
+            return(
+                
+                <div> 
+                    {this.state.moviesnames}
+                </div>
+            )
+        }
+        else if(this.props.term==""){
+            return(
+                
+                <EmptyStateMsgContainer> 
+                    <EmptyStateMsg>No Results to show</EmptyStateMsg>
+                </EmptyStateMsgContainer>
+            )
+        }  
+        else if(this.state.moviesnames.length == 0){
+             return(
+                
+                <EmptyStateMsgContainer> 
+                    <EmptyStateMsg>Your search did not match any Show</EmptyStateMsg>
+                </EmptyStateMsgContainer>
+            )
+        }
+            
+        
     }
 }
 

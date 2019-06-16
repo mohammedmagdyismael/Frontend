@@ -85,9 +85,6 @@ class Search extends React.Component{
                         placeholder='Enter Movie Name ...' 
                         type='text'>
                     </SearchBarInput>
-
-                  
-
                 </form>
             </SearchBarContainer>
         )

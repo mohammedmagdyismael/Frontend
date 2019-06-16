@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React  from 'react';
 import HeaderBox from './HeaderBox';
 import SearchBar from './Search';
 import ResultedSearch from './ResultedMovies';
 import PopularMovies from './PopularMovies'
-import styled, {keyframes} from 'styled-components'
+import styled from 'styled-components'
 
 
 const MoviesContainer = styled.div`
@@ -24,12 +24,12 @@ const SearchResultsContainer = styled.div`
     padding-top: 2px;
     padding-bottom: 5px;
     height: 100%;
-    overflow: auto;
+    width: 100%;
 `;
 
 const PopularMoviesContainer = styled.div`
     display: block;
-    margin: 10px 10px 10px 0px;
+    margin: 5px 5px 5px 10px;
     border-radius: 10px;
     
     padding-left: 0.5%;
@@ -43,6 +43,14 @@ const PopularMoviesContainer = styled.div`
 
 const ContainerTitle = styled.p`
     display: block;  
+    margin-left : 15px;
+    font-size : 16px;
+`;
+
+const Container = styled.div`
+    display : grid;
+    grid-template-columns: 20% auto;
+    grid-column-gap: 5px;
 `;
 
 
@@ -54,7 +62,6 @@ class App extends React.Component{
         };
     }
     
-
     onTermSubmit = (term)=>{
         
         this.setState({
@@ -66,31 +73,34 @@ class App extends React.Component{
         return(
             <div>
                 <HeaderBox/> 
-                <SearchBar onFormSubmit={this.onTermSubmit}/>
-                
-                <ContainerTitle>
-                        Popular Movies
-                </ContainerTitle>
 
-                <PopularMoviesContainer>
-
-                    <PopularMovies />
-
-                </PopularMoviesContainer>
-
-
-                <MoviesContainer>
-
-                    <SearchResultsContainer>
+                <Container>
+                    <div>
+                        <SearchBar onFormSubmit={this.onTermSubmit}/>
                         <ContainerTitle>
-                            Search Results
+                                Popular Movies
                         </ContainerTitle>
+                        <PopularMoviesContainer>
+                            <PopularMovies />
+                        </PopularMoviesContainer>
+                    </div>
 
-                        <ResultedSearch term = {this.state.term}/>
+                    <MoviesContainer>
+                        <SearchResultsContainer>
+                            <ContainerTitle>
+                                Search Results
+                            </ContainerTitle>
+                            <ResultedSearch term = {this.state.term}/>
+                        </SearchResultsContainer>
+                    </MoviesContainer>
 
-                    </SearchResultsContainer>
+                </Container>
+                    
+                    
+                    
 
-                </MoviesContainer>
+
+                    
             </div>
         )
     }
