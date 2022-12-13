@@ -1,6 +1,6 @@
 {
   "homepage": "http://mohammedmagdyismael.github.io/traktv-search-engine",
-  "name": "my-app",
+  "name": "traktv-search-engine",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
